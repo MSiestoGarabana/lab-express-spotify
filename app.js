@@ -27,32 +27,32 @@ app.get('/',(req, res) => {
 })
 
 
-
-
 app.get('/artist-search', (req, res)=>{
-    console.log('blablabla------------------------------', req.query)
     const {artist} = req.query
-    console.log("-------------QUEREMOS EL ID", id)
 
      spotifyApi
         .searchArtists(artist)
-        //.findOne({name: artist}) METODO SPOTI
         .then(data => {
             const info = data.body.artists.items
             console.log(info)
             res.render('artist-view', {info})
         })
         .catch(err => console.log('The error while searching artists occurred: ', err)) 
-   // 
+   
 }) 
-app.get('/albums/:id', (req, res) => {
+
+ app.get('/albums/:id', (req, res) => {
   const {id} = req.params
   spotifyApi
   .getArtistAlbums(id)
   .then(data => {
-      res.send(data.body)
-  } 
-  )
-})
+    const info = data.body
+    console.log("---------------------------")
+    //res.render('albums-view', {data: data}) 
+    res.render('albums-view', {info: info})
+  })
+}) 
+
+
 
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
